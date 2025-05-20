@@ -1,0 +1,38 @@
+name: OpenAIP Integration CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      env:
+        OPENAIP_API_KEY: ${{ secrets.OPENAIP_API_KEY }}
+        NODE_ENV: test
+      run: npm test
+
+    - name: Build and Deploy
+      if: github.ref == 'refs/heads/main'
+      env:
+        OPENAIP_API_KEY: ${{ secrets.OPENAIP_API_KEY }}
+        NODE_ENV: ${{ secrets.DEPLOYMENT_ENV }}
+      run: |
+        npm run build
+        echo "Deployment to production server would happen here"
