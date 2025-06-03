@@ -15,6 +15,7 @@ const aircraftForSale = require('./src/data/aircraftForSale');
 const app = express();
 
 // CORS configuration
+const cors = require('cors');
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
