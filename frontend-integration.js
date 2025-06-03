@@ -1,7 +1,7 @@
 // This file contains examples of how to integrate the backend with your frontend
 
 // API Base URL - replace with your actual backend URL when deployed
-const API_BASE_URL = "http://localhost:5000/api"
+const API_BASE_URL = "https://v0-server-setup-dun.vercel.app/api"
 
 // Helper function for making API requests
 async function apiRequest(endpoint, method = "GET", data = null, token = null) {
