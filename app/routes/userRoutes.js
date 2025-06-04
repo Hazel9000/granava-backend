@@ -1,26 +1,19 @@
-import express from "express"
-import {
-  register,
-  login,
-  getProfile,
-  updateProfile,
-  changePassword,
-  getAllUsers,
-} from "../controllers/userController.js"
-import { protect, restrictTo } from "../middleware/authMiddleware.js"
+const express = require("express");
+const router = express.Router();
 
-const router = express.Router()
+// GET /api/users/
+router.get("/", (req, res) => {
+  res.json([{ id: 1, username: "demo" }]);
+});
 
-// Public routes
-router.post("/register", register)
-router.post("/login", login)
+// POST /api/users/register
+router.post("/register", (req, res) => {
+  const { username, password, email } = req.body;
+  if (!username || !password || !email) {
+    return res.status(400).json({ error: "Please provide username, email, and password." });
+  }
+  // Add user registration logic here...
+  res.status(201).json({ message: "User registered!", user: { username, email } });
+});
 
-// Protected routes
-router.get("/profile", protect, getProfile)
-router.put("/profile", protect, updateProfile)
-router.put("/change-password", protect, changePassword)
-
-// Admin routes
-router.get("/", protect, restrictTo("admin"), getAllUsers)
-
-export default router
+module.exports = router;
