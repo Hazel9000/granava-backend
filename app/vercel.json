@@ -6,3 +6,8 @@
     "SECRET": "@my-secret-name"
   }
 }
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
