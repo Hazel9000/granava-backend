@@ -1,24 +1,25 @@
-// api/register.js
-const express = require('express');
+// api/register.js (Vercel Serverless Function style)
 const bcrypt = require('bcryptjs');
 
-const router = express.Router();
+let users = []; // In-memory users array (will reset on every serverless invocation)
 
-// In-memory users storage for example purposes
-const users = [];
+export default async function handler(req, res) {
+  // Only allow POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+  }
 
-router.post('/register', async (req, res) => {
   const { name, email, phone, company, password } = req.body;
 
   // Basic validation
   if (!name || !email || !phone || !password) {
-    return res.json({ success: false, message: 'All required fields must be filled.' });
+    return res.status(400).json({ success: false, message: 'All required fields must be filled.' });
   }
 
   // Check if user already exists
   const existingUser = users.find(user => user.email === email);
   if (existingUser) {
-    return res.json({ success: false, message: 'Email is already registered.' });
+    return res.status(400).json({ success: false, message: 'Email is already registered.' });
   }
 
   // Hash the password
@@ -38,10 +39,7 @@ router.post('/register', async (req, res) => {
   users.push(newUser);
 
   // Return user object without password
-  const userWithoutPassword = { ...newUser };
-  delete userWithoutPassword.password;
+  const { password: _, ...userWithoutPassword } = newUser;
 
-  res.json({ success: true, user: userWithoutPassword });
-});
-
-module.exports = router;
+  return res.status(200).json({ success: true, user: userWithoutPassword });
+}
