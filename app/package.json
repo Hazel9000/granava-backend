@@ -1,0 +1,46 @@
+{
+  "name": "dotenv",
+  "version": "16.5.0",
+  "description": "Backend API for Granava aircraft charter service",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@vercel/edge-config": "^1.4.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "form-data": "^4.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.1",
+    "server.js": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "motdotla",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/motdotla/dotenv.git"
+  },
+  "keywords": [
+    "dotenv",
+    "env",
+    "environment",
+    "variables",
+    "config",
+    "settings"
+  ],
+  "bugs": {
+    "url": "https://github.com/motdotla/dotenv/issues"
+  },
+  "homepage": "https://github.com/motdotla/dotenv#readme"
+}
