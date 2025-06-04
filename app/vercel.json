@@ -1,13 +1,15 @@
-{ "version": 2, "builds": [ { "src": "app/api/**/.js", "use": "@vercel/node" } ], "routes": [ { "src": "/api/(.)", "dest": "app/api/$1.js" } ] }
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
   "env": {
     "MY_KEY": "this is the value",
     "SECRET": "@my-secret-name"
-  }
-}
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  },
+  "builds": [
+    { "src": "app/api/**/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "app/api/$1.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
