@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 // --- User Authentication Routes ---
-app.post('/api/users/register', (req, res) => {
+app.post('/api/register', (req, res) => {
   const { name, email, phone, company, password } = req.body;
   if (!name || !email || !phone || !password) {
     return res.status(400).json({ success: false, message: 'Please provide all required fields' });
@@ -64,7 +64,7 @@ app.post('/api/users/register', (req, res) => {
   });
 });
 
-app.post('/api/users/login', (req, res) => {
+app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Please provide email and password' });
