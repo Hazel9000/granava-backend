@@ -1,16 +1,17 @@
 {
-  "name": "v0-server-setup",
-  "version": "16.5.0",
+  "name": "granava-backend",
+  "version": "1.0.0",
   "description": "Backend API for Granava aircraft charter service",
-  "main": "app",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-  "deploy": "vercel --prod",
-  "dev": "vercel dev"
-}
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "build": "echo 'No build step necessary for vanilla Node.js backend'",
+    "vercel-build": "node server.js",
+    "vercel-dev": "nodemon server.js"
   },
   "dependencies": {
-    "@vercel config": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -18,7 +19,7 @@
     "form-data": "^4.0.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.1",
-    "server.js": "^1.0.0"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
@@ -28,23 +29,14 @@
   },
   "author": "Hazel",
   "license": "ISC",
-  "repository": {Hazel9000/back-end/main/app
+  "repository": {
     "type": "git",
     "url": "https://github.com/Hazel9000/granava-backend/"
   },
   "keywords": [
     "express",
-    "require",
-    "cors",
-    "routes",
     "api",
-    "register",
-    "modal",
-    "form"
-  ],
-  "bugs": {
-    "url": 
-  },
-  "CORS_ORIGIN": "https://frontend-indol-ten-75.vercel.app/"
-    "API_URL": "https://v0-server-setup-dun.vercel.app/api"
+    "granava",
+    "backend"
+  ]
 }
