@@ -1,35 +1,32 @@
-const express = import('express');
-const cors = import('cors');
-const dotenv = import('dotenv');
-const { v4: uuidv4 } = import('uuid');
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcryptjs');
 
-// Load environment variables
-dotenv.config();
-
-// Import services and data
 const { getAirports, getAirportByIcao } = require('./src/services/openaip');
 const { getWeatherByCity } = require('./src/services/weather');
-const aircraftForSale = require('./src/data/aircraftForSale');
+const aircraftForSale = require('./data/aircraftForSale');
 
-// Create Express app
+dotenv.config();
+
 const app = express();
 
-// CORS configuration
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// In-memory "database" for users, bookings, and messages
+// In-memory data stores
 const users = [];
 const bookings = [];
 const contactMessages = [];
 
-// --- Root Route ---
+// Root route
 app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to Granava Aircraft Charter API',
@@ -38,7 +35,7 @@ app.get('/', (req, res) => {
 });
 
 // --- User Authentication Routes ---
-app.post('/api/register', (req, res) => {
+app.post('/api/register', async (req, res) => {
   const { name, email, phone, company, password } = req.body;
   if (!name || !email || !phone || !password) {
     return res.status(400).json({ success: false, message: 'Please provide all required fields' });
@@ -46,13 +43,14 @@ app.post('/api/register', (req, res) => {
   if (users.find(user => user.email === email)) {
     return res.status(400).json({ success: false, message: 'User with this email already exists' });
   }
+  const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = {
     id: uuidv4(),
     name,
     email,
     phone,
     company,
-    password, // NOTE: For production, hash passwords!
+    password: hashedPassword,
     createdAt: new Date()
   };
   users.push(newUser);
@@ -64,13 +62,13 @@ app.post('/api/register', (req, res) => {
   });
 });
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Please provide email and password' });
   }
   const user = users.find(user => user.email === email);
-  if (!user || user.password !== password) {
+  if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ success: false, message: 'Invalid email or password' });
   }
   const { password: _, ...userWithoutPassword } = user;
@@ -159,7 +157,6 @@ app.post('/api/contact', (req, res) => {
 });
 
 // --- OpenAIP API Integration ---
-// Get all airports from OpenAIP
 app.get('/api/openaip/airports', async (req, res) => {
   try {
     const airports = await getAirports();
@@ -168,7 +165,7 @@ app.get('/api/openaip/airports', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch airports from OpenAIP.' });
   }
 });
-// Get a single airport from OpenAIP by ICAO code
+
 app.get('/api/openaip/airports/:icao', async (req, res) => {
   try {
     const airport = await getAirportByIcao(req.params.icao);
@@ -179,13 +176,11 @@ app.get('/api/openaip/airports/:icao', async (req, res) => {
 });
 
 // --- Aircraft for Sale Endpoint ---
-// Returns a list of aircraft with images
 app.get('/api/aircraft-for-sale', (req, res) => {
   res.json(aircraftForSale);
 });
 
 // --- Live Weather Endpoint ---
-// Get live weather for a city
 app.get('/api/weather/:city', async (req, res) => {
   try {
     const weather = await getWeatherByCity(req.params.city);
