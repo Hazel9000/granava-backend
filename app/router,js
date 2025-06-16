@@ -2,8 +2,11 @@ const express = require("express");
 
 // Import all your route files
 const userRoutes = require("../routes/userRoutes");
-const productRoutes = require("../routes/productRoutes");
-const orderRoutes = require("../routes/orderRoutes");
+const bookingRoutes = require("../routes/bookingRoutes");
+const airportRoutes = require("../routes/airportRoutes");
+const quoteRoutes = require("../routes/quoteRoutes");
+const contactRoutes = require("../routes/contactRoutes");
+const aircraftRoutes = require("../routes/aircraftRoutes");
 
 // Example of middleware: authentication stub (replace with real logic)
 function authenticate(req, res, next) {
