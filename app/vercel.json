@@ -1,15 +1,15 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "env": {
     "MY_KEY": "this is the value",
     "SECRET": "@my-secret-name"
   },
   "builds": [
+    { "src": "src": "server.js", "use": "@vercel/node" }
     { "src": "app/api/**/*.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "app/api/$1.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/(.*)", "dest": "/server.js" }
   ]
 }
