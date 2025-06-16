@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "build": "echo 'No build step necessary for vanilla Node.js backend'",
+    "build": 
     "vercel-build": "node server.js",
     "vercel-dev": "nodemon server.js"
   },
