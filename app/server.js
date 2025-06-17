@@ -4,16 +4,11 @@ const router = require("./app/router");
 
 const app = express();
 
-app.use(express.json("/", (req, res) => {
-  res.send("Welcome to Granava backend");
-});
-
-app.use("/api/hello", (req, res) => {
-  res.json({ message: "Hello World" });));
+app.use(express.json("/", (req, res) => 
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
 
-// Mount all API routes at /api
-app.use("/api", router);
+// Mount all API routes at /api/routes
+app.use("/api/routes", router);
 
 // 404 for non-API, non-static
 app.use((req, res) => {
