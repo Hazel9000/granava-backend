@@ -6,10 +6,9 @@
   },
   "builds": [
     { "src": "app/server.js", "use": "@vercel/node" }
-    { "src": "app/api/**/*.js", "use": "@vercel/node" }
-  ],
+    ],
   "routes": [
-    { "src": "/api/routes(.*)", "dest": "app/api/$1.js" },
+    { "src": "/app/routes(.*)", "dest": "app/routes/$1.js" },
     { "src": "/(.*)", "dest": "/server.js" }
   ]
 }
