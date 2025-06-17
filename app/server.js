@@ -8,7 +8,7 @@ app.use(express.json("/", (req, res) =>
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
 
 // Mount all API routes at /api/routes
-app.use("/api/routes", router);
+app.use("/app/routes", router);
 
 // 404 for non-API, non-static
 app.use((req, res) => {
