@@ -1,37 +1,45 @@
 const express = require("express");
 
-// Import all your route files
+// Import route files
 const userRoutes = require("../routes/userRoutes");
 const bookingRoutes = require("../routes/bookingRoutes");
 const airportRoutes = require("../routes/airportRoutes");
 const quoteRoutes = require("../routes/quoteRoutes");
 const contactRoutes = require("../routes/contactRoutes");
 const aircraftRoutes = require("../routes/aircraftRoutes");
+const productRoutes = require("../routes/productRoutes");
+const orderRoutes = require("../routes/orderRoutes");
 
-// Example of middleware: authentication stub (replace with real logic)
+// Authentication middleware (stub)
 function authenticate(req, res, next) {
-  // For demonstration, allow all requests
-  // You can add logic here to check JWT tokens, sessions, etc.
+  // TODO: Implement real authentication logic
   next();
 }
 
 const router = express.Router();
 
-// Route mounting
+// Mount routes
 router.use("/api/users", userRoutes);
+router.use("/api/bookings", bookingRoutes);
+router.use("/api/airports", airportRoutes);
+router.use("/api/quotes", quoteRoutes);
+router.use("/api/contacts", contactRoutes);
+router.use("/api/aircraft", aircraftRoutes);
 
-// If you want to protect some routes with middleware, do this:
+// Protected routes
 router.use("/api/products", authenticate, productRoutes);
 router.use("/api/orders", authenticate, orderRoutes);
 
-// Example of a general-purpose health check route
+// Health check
 router.get("/api/health", (req, res) => {
-  res.json({ status: "ok", time: new Date() });
+  res.status(200).json({ status: "ok", time: new Date() });
 });
 
-// Catch-all for undefined API routes (404 handling for API only)
+// API 404 handler
 router.use("/api/*", (req, res) => {
   res.status(404).json({ error: "API route not found" });
 });
 
 module.exports = router;
+
+
