@@ -1,14 +1,10 @@
 {
   "version": 2,
-  "env": {
-    "MY_KEY": "this is the value",
-    "SECRET": "@my-secret-name"
-  },
   "builds": [
     { "src": "app/server.js", "use": "@vercel/node" }
-    ],
+  ],
   "routes": [
-    { "src": "/app/routes(.*)", "dest": "app/routes/$1.js" },
-    { "src": "/(.*)", "dest": "/server.js" }
+    { "src": "/app/routes/(.*)", "dest": "app/server.js" },
+    { "src": "/(.*)", "dest": "app/server.js" }
   ]
 }
