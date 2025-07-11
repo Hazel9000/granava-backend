@@ -1,25 +1,22 @@
 const express = require("express");
 const path = require("path");
-const router = require("./app/router");
+const router = require("./router");
 
 const app = express();
 
-app.use(express.json("/", (req, res) => 
-app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+// Parse JSON bodies
+app.use(express.json());
 
-// Mount all API routes at /api/routes
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, "public")));
+
+// Mount all API routes at /app/routes
 app.use("/app/routes", router);
 
-// 404 for non-API, non-static
+// 404 handler for unmatched routes
 app.use((req, res) => {
   res.status(404).send("Not found");
 });
 
-const PORT = process.env.PORT || 5000;
-
-// For Vercel, export app instead of listening
-if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
-  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
-} else {
-  module.exports = app;
-}
+// Do NOT call app.listen() for Vercel. Just export the app:
+module.exports = app;
